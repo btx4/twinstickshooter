@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxtsxj4fn2k3k"]
+
+[ext_resource type="Script" path="res://boomerang.gd" id="1_cge4u"]
+[ext_resource type="Texture2D" uid="uid://5kiqf81b5gpk" path="res://Actors/Shadow.png" id="2_nfpdr"]
+[ext_resource type="Texture2D" uid="uid://c0steifnlxvjr" path="res://Actors/player/Asset 10.png" id="2_nkvvt"]
+[ext_resource type="Script" path="res://Actors/boomerang/sprite_2d.gd" id="2_rr53p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_be1wa"]
+size = Vector2(34, 34)
+
+[node name="boomerang" type="Area2D" groups=["boomerang"]]
+script = ExtResource("1_cge4u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(-2.68951, 16.4413)
+rotation = -2.96976
+scale = Vector2(0.0776173, -0.0824179)
+texture = ExtResource("2_nfpdr")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_be1wa")
+
+[node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
+rotation = 1.57006
+scale = Vector2(0.37037, 0.37037)
+texture = ExtResource("2_nkvvt")
+script = ExtResource("2_rr53p")
+
+[node name="pickup_timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="pickup_timer" to="." method="_on_pickup_timer_timeout"]

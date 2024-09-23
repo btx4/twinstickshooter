@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://bu68v2xvn5ki0"]
+
+[ext_resource type="Script" path="res://Actors/powerup/powerup.gd" id="1_rp2fv"]
+[ext_resource type="Texture2D" uid="uid://d2ct1yb1yf8xe" path="res://Actors/Skeleton/Powerup.png" id="2_q10e8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_034by"]
+size = Vector2(16, 16)
+
+[sub_resource type="Animation" id="Animation_b1iex"]
+resource_name = "Idle"
+
+[sub_resource type="Animation" id="Animation_3hiai"]
+resource_name = "IdleFront"
+length = 0.233335
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0166667, 0.0333333, 0.05, 0.0666667, 0.0833333, 0.1, 0.116667, 0.133333, 0.15, 0.166667, 0.183333, 0.2, 0.216667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
+
+[sub_resource type="Animation" id="Animation_s7rbq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3j1yn"]
+_data = {
+"Idle": SubResource("Animation_b1iex"),
+"IdleFront": SubResource("Animation_3hiai"),
+"RESET": SubResource("Animation_s7rbq")
+}
+
+[node name="Powerup" type="Area2D" groups=["powerup"]]
+script = ExtResource("1_rp2fv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_034by")
+
+[node name="SkeletonSprite" type="Sprite2D" parent="."]
+position = Vector2(4, -4)
+scale = Vector2(3.25, 3.06944)
+texture = ExtResource("2_q10e8")
+hframes = 4
+vframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../SkeletonSprite")
+libraries = {
+"": SubResource("AnimationLibrary_3j1yn")
+}
+speed_scale = 0.25
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

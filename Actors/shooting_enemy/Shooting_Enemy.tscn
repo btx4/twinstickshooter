@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://duy765lkcg8n6"]
+
+[ext_resource type="Script" path="res://Actors/shooting_enemy/shooting_enemy.gd" id="1_qnsgd"]
+[ext_resource type="PackedScene" uid="uid://de4tofvvyfjlp" path="res://Actors/enemy_projectile/enemy_projectile.tscn" id="2_f6vn3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yqv2t"]
+size = Vector2(138, 138)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qi7u1"]
+
+[node name="Shooting_Enemy" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_qnsgd")
+projectile_scene = ExtResource("2_f6vn3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_yqv2t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(134, 134)
+texture = SubResource("CanvasTexture_qi7u1")
+
+[node name="Gunshot_timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="Gunshot_timer" to="." method="_on_gunshot_timer_timeout"]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxtsxj4fn2k3k"]
+
+[ext_resource type="Script" path="res://boomerang.gd" id="1_cge4u"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_x5j6o"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_78eox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_be1wa"]
+size = Vector2(24, 18)
+
+[node name="boomerang" type="Area2D"]
+script = ExtResource("1_cge4u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.16545, 0.5608)
+rotation = 0.79894
+scale = Vector2(3.4145, 11.8904)
+texture = SubResource("CanvasTexture_x5j6o")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-0.73943, -5.77431)
+rotation = 0.754222
+scale = Vector2(12.5958, 3.75341)
+texture = SubResource("CanvasTexture_78eox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_be1wa")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true

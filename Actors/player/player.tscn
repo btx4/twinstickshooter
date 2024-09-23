@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://sbijq1crjdou"]
+
+[ext_resource type="Script" path="res://Actors/player/player.gd" id="1_kp7a0"]
+[ext_resource type="PackedScene" uid="uid://by0wumexg11hv" path="res://Actors/projectile/projectile.tscn" id="2_2opvs"]
+[ext_resource type="PackedScene" uid="uid://dxtsxj4fn2k3k" path="res://Actors/boomerang/boomerang.tscn" id="3_v5b34"]
+[ext_resource type="PackedScene" uid="uid://b63mjoro2w3jx" path="res://Actors/sine_bullet.tscn" id="4_7rp01"]
+[ext_resource type="Texture2D" uid="uid://dmpdk11m6ml0n" path="res://Actors/player/Balding_head.png" id="5_1bufi"]
+[ext_resource type="Texture2D" uid="uid://5kiqf81b5gpk" path="res://Actors/Shadow.png" id="5_8js1a"]
+[ext_resource type="PackedScene" uid="uid://cajaxgxpsqyum" path="res://Actors/baseball_bat/baseball_bat.tscn" id="5_ftmsh"]
+[ext_resource type="Texture2D" uid="uid://c0steifnlxvjr" path="res://Actors/player/Asset 10.png" id="5_xxdrm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d58b6"]
+size = Vector2(24, 24)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+motion_mode = 1
+script = ExtResource("1_kp7a0")
+projectile_scene = ExtResource("2_2opvs")
+boomerang_scene = ExtResource("3_v5b34")
+sine_bullet_scene = ExtResource("4_7rp01")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(-5, 31)
+rotation = 3.31342
+scale = Vector2(0.0614493, -0.14211)
+texture = ExtResource("5_8js1a")
+
+[node name="Baseball_Bat" parent="." instance=ExtResource("5_ftmsh")]
+position = Vector2(16, 11)
+rotation = -1.90412
+
+[node name="BaldingHead" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+rotation = 1.57079
+scale = Vector2(0.457636, 0.457636)
+texture = ExtResource("5_1bufi")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(7, 0)
+rotation = 1.57079
+scale = Vector2(0.319835, 0.319835)
+texture = ExtResource("5_xxdrm")
+
+[node name="PlayerCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_d58b6")
+
+[node name="ProjectileRefPoint" type="Node2D" parent="."]
+position = Vector2(16, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cajaxgxpsqyum"]
+
+[ext_resource type="Texture2D" uid="uid://b5mcn27p33kqk" path="res://Actors/baseball_bat/Asset 7.png" id="1_au2eh"]
+[ext_resource type="Script" path="res://Actors/baseball_bat/baseball_bat.gd" id="1_cmqyo"]
+[ext_resource type="PackedScene" uid="uid://bu01wd6563dtr" path="res://Actors/grunt_projectile/grunt_projectile.tscn" id="2_g60ag"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f5bh7"]
+size = Vector2(30, 92.6374)
+
+[node name="Baseball_Bat" type="Area2D"]
+script = ExtResource("1_cmqyo")
+projectile_scene = ExtResource("2_g60ag")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.119048, -41.8626)
+scale = Vector2(0.600509, 0.600509)
+texture = ExtResource("1_au2eh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -43.6813)
+shape = SubResource("RectangleShape2D_f5bh7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.38
+one_shot = true
+
+[node name="Reswing_Timer" type="Timer" parent="."]
+
+[node name="Warmup_timer" type="Timer" parent="."]
+wait_time = 0.18
+one_shot = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Warmup_timer" to="." method="_on_warmup_timer_timeout"]

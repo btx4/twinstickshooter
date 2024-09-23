@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://t16dd7ww433n"]
+
+[node name="outer wall" type="StaticBody2D" groups=["wall"]]
+collision_layer = 4
+collision_mask = 4
+
+[node name="OuterWall" type="Area2D" parent="." groups=["wall"]]
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="OuterWall" groups=["wall"]]
+polygon = PackedVector2Array(-256, 0, 320, -576, 832, -576, 1408, 0, 1838, 58, 1030, -874, 154, -894, -610, 74)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="." groups=["wall"]]
+polygon = PackedVector2Array(-256, 0, 320, -576, 832, -576, 1408, 0, 1838, 58, 1030, -874, 154, -894, -610, 74)

@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu01wd6563dtr"]
+
+[ext_resource type="Script" path="res://Actors/grunt_projectile/grunt_projectile.gd" id="1_1ix1e"]
+[ext_resource type="Texture2D" uid="uid://dbcfbviwenvo3" path="res://Actors/projectile/Baseball.png" id="2_6a13w"]
+[ext_resource type="PackedScene" uid="uid://bu68v2xvn5ki0" path="res://Actors/powerup/powerup.tscn" id="2_sd8vf"]
+[ext_resource type="Script" path="res://Actors/grunt_projectile/sprite_2d.gd" id="3_y4otu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uspa5"]
+size = Vector2(24, 18)
+
+[node name="GruntProjectile" type="Area2D"]
+script = ExtResource("1_1ix1e")
+powerup_scene = ExtResource("2_sd8vf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.267857, 0.267857)
+texture = ExtResource("2_6a13w")
+script = ExtResource("3_y4otu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uspa5")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

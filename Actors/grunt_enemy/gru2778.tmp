@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjbajty2ubmqo"]
+
+[ext_resource type="Script" path="res://Actors/grunt_enemy/grunt_enemy.gd" id="1_yexib"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_al4rn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0ke3"]
+
+[node name="GruntEnemy" type="Area2D" groups=["Enemies", "Grunt"]]
+script = ExtResource("1_yexib")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(18, 18)
+texture = SubResource("CanvasTexture_al4rn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o0ke3")
