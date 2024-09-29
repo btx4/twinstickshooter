@@ -9,6 +9,7 @@ var canPickup = false;
 var velocity_reversed 
 var speed 
 var init_speed
+var boing
 var i = 0;
 # Called when the node enters the scene tree for the first time.
 func fire(direction: Vector2, speed2: float) -> void:
@@ -17,8 +18,9 @@ func fire(direction: Vector2, speed2: float) -> void:
 	rotation = velocity.angle()
 	speed = speed2
 	init_speed = speed
-	update_score(-1)
 	$pickup_timer.start()
+	$whoosh.play()
+	boing = false
 
 func _process(delta):
 	# Make sure the sprite stays upright while the CharacterBody2D rotates
@@ -36,8 +38,8 @@ func _ready() -> void:
 		print("Failed To Connect")
 	
 	# Get the RichTextLabel reference from the main scene
-	score_label = get_parent().get_node("CanvasLayer/Score")  # Adjust the path to your RichTextLabel
-
+	var score_label = get_node("CanvasLayer/Score")
+	
 # Called when the Area2D hits another body
 func _on_body_entered(body: Node) -> void:
 	print(body)
@@ -51,34 +53,25 @@ func _on_body_entered(body: Node) -> void:
 		print("STOP!")
 		reverse = true
 		i = 151
-	if body.is_in_group("Grunt"):
+	if body.is_in_group("Enemies"):
 		if $CollisionShape2D/Sprite2D.spinning == true:
-			print("Hit!")
-			if score_label:
-				update_score(5)  # Increment the score by 1
-			else: 
-				print("noscorelabelfound")
-			body.queue_free()  # Remove the Grunt
+			body.hit()
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
-		print("dud")
 		get_parent().boomerang_count =1
 		queue_free()
+	if area.is_in_group("shooter"):
+		area.hit()
 	if area.is_in_group("wall"):
-		print("STOP!")
 		reverse = true
 		i = 151
-	if area.is_in_group("Grunt"):
+	if area.is_in_group("Enemies"):
 		if $CollisionShape2D/Sprite2D.spinning == true:
-			print("Hit!")
-			if score_label:
-				update_score(5)  # Increment the score by 1
-			else: 
-				print("noscorelabelfound")
-			area.queue_free()  # Remove the Grunt
+			area.hit() 
 		
 var reverse = false;
+
 func _physics_process(delta: float) -> void:
 	
 	if(speed > 0.5 and reverse == false):
@@ -108,29 +101,15 @@ func _physics_process(delta: float) -> void:
 				speed = 0;
 				velocity = Vector2(0, 0)
 				$CollisionShape2D/Sprite2D.spinning = false;
+				$whoosh.stop()
+				if(boing == false):
+					$StopSound.play()
+					boing = true
 				#print(position.x)
 # Optional: Handle projectile lifetime
 
 # Updates the score and reflects it in the RichTextLabel
-func update_score(amount: int) -> void:
-	if score_label:
-		score = amount + get_score_from_label()
-		score_label.text = "Score: %d" % score  # Update the score text
-		
 
-func get_score_from_label() -> int:
-	if score_label:
-		# Get the text from the RichTextLabel
-		var text = score_label.text
-		
-		# Extract the score from the text
-		# Assuming the text format is "Score: X", where X is the number
-		var score_value = text.replace("Score: ", "").to_int()
-		
-		return score_value
-	else:
-		print("Score label not found")
-		return 0
 
 
 func _on_pickup_timer_timeout() -> void:

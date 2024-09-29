@@ -1,20 +1,60 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu01wd6563dtr"]
+[gd_scene load_steps=9 format=3 uid="uid://bu01wd6563dtr"]
 
 [ext_resource type="Script" path="res://Actors/grunt_projectile/grunt_projectile.gd" id="1_1ix1e"]
-[ext_resource type="Texture2D" uid="uid://dbcfbviwenvo3" path="res://Actors/projectile/Baseball.png" id="2_6a13w"]
 [ext_resource type="PackedScene" uid="uid://bu68v2xvn5ki0" path="res://Actors/powerup/powerup.tscn" id="2_sd8vf"]
+[ext_resource type="Texture2D" uid="uid://bak5a1b5bxicp" path="res://Actors/grunt_projectile/good_baseball.png" id="3_1qgyx"]
 [ext_resource type="Script" path="res://Actors/grunt_projectile/sprite_2d.gd" id="3_y4otu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uspa5"]
-size = Vector2(24, 18)
+size = Vector2(26, 26)
+
+[sub_resource type="Animation" id="Animation_12qh4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_glgs1"]
+resource_name = "baseball"
+length = 0.433337
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4, 0.433333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l87vw"]
+_data = {
+"RESET": SubResource("Animation_12qh4"),
+"baseball": SubResource("Animation_glgs1")
+}
 
 [node name="GruntProjectile" type="Area2D"]
+collision_layer = 2
 script = ExtResource("1_1ix1e")
 powerup_scene = ExtResource("2_sd8vf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.267857, 0.267857)
-texture = ExtResource("2_6a13w")
+scale = Vector2(0.173913, 0.173913)
+texture = ExtResource("3_1qgyx")
+hframes = 14
 script = ExtResource("3_y4otu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,5 +63,12 @@ shape = SubResource("RectangleShape2D_uspa5")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_l87vw")
+}
+autoplay = "baseball"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

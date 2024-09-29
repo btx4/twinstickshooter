@@ -8,6 +8,7 @@ const JUMP_VELOCITY = -400.0
 @export var sine_bullet_scene: Resource
 @onready var bat = $Baseball_Bat
 var boomerang_count
+var boomerang_scale = 1
 
 func _ready() -> void:
 	boomerang_count = 1;
@@ -21,6 +22,7 @@ func reset_score() -> void:
 		score_label.text = "Score: %d" % 0  # Update the score text
 
 func reset():
+	boomerang_scale = 1
 	position = Vector2(0,0)
 	boomerang_count =1 
 	for rang in get_tree().get_nodes_in_group("boomerang"):
@@ -65,6 +67,8 @@ func _physics_process(delta: float) -> void:
 		var collision = get_slide_collision(i)
 		if(collision.get_collider().is_in_group("Grunt")):
 			get_parent()._reset()
+		if(collision.get_collider().is_in_group("shooter")):
+			get_parent()._reset()
 			
 	if Input.is_action_just_pressed("click"):
 		bat.swing(Vector2.from_angle(rotation))
@@ -100,6 +104,7 @@ func on_click2_action() -> void:
 	# Do something when the mouse is clicked
 	var new_projectile = boomerang_scene.instantiate()
 	get_parent().add_child(new_projectile)
+	new_projectile.scale *= boomerang_scale
 	new_projectile.fire(Vector2.from_angle(rotation), 600)
 	new_projectile.position = $ProjectileRefPoint.global_position
 	# Add your custom logic here

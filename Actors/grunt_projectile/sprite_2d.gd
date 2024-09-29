@@ -1,5 +1,4 @@
 extends Sprite2D
-
 # Constants for rotation speed in degrees per second
 const ROTATION_SPEED = 720  # degrees per second
 

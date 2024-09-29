@@ -29,7 +29,7 @@ func _ready() -> void:
 	
 	# Get the RichTextLabel reference from the main scene
 	score_label = get_parent().get_node("CanvasLayer/Score")  # Adjust the path to your RichTextLabel
-
+var dir = 1
 func _physics_process(delta: float) -> void:
 	# Increment the elapsed time
 	elapsed_time += delta
@@ -38,11 +38,8 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	
 	# Add sine wave movement in the perpendicular direction
-	if(num % 100 <50):
-		position += perpendicular_direction * 5
-	else:
-		position -= perpendicular_direction * 5
-	
+	position += perpendicular_direction * dir
+	dir = dir * 1.035
 	num = num + 1
 
 
@@ -52,26 +49,17 @@ func _on_body_entered(body: Node) -> void:
 	print(body)
 	if body.is_in_group("player"):
 		print("dud")
-	if body.is_in_group("Grunt"):
-		print("Hit!")
-		if score_label:
-			update_score(5)  # Increment the score by 1
-		body.queue_free()  # Remove the Grunt
+	if body.is_in_group("Enemies"):
+		body.hit()
 		queue_free()  # Remove the projectile
 
 func _on_area_entered(area: Area2D) -> void:
 	print(area)
 	if area.is_in_group("player"):
 		print("dud")
-	if area.is_in_group("Grunt"):
-		print("Hit!")
-		if score_label:
-			update_score(5)  # Increment the score by 1
-		else: 
-			print("noscorelabelfound")
-		area.queue_free()  # Remove the Grunt
+	if area.is_in_group("Enemies"):
+		area.hit()
 		queue_free()  # Remove the projectile
-
 
 # Optional: Handle projectile lifetime
 func _on_timer_timeout() -> void:

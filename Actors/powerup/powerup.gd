@@ -8,7 +8,11 @@ func _ready() -> void:
 
 func _trigger(player: Node2D):
 	var bat = player.get_node("Baseball_Bat")
-	bat.scale *= 1.1
+	if (randi() % 2 == 1):
+		bat.scale *= 1.1
+	else:
+		print("INCREASING BOOM SIZE")
+		player.boomerang_scale = player.boomerang_scale * 1.2
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

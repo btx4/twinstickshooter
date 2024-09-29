@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c4xk2qyy12k5h"]
+[gd_scene load_steps=10 format=3 uid="uid://c4xk2qyy12k5h"]
 
 [ext_resource type="Script" path="res://Actors/grunt_enemy/grunt_enemy_2.gd" id="1_5wsdf"]
-[ext_resource type="Texture2D" uid="uid://dipmliwt2u7sd" path="res://Actors/grunt_enemy/Enemy_baseball.png" id="2_2ph3t"]
 [ext_resource type="Texture2D" uid="uid://5kiqf81b5gpk" path="res://Actors/Shadow.png" id="2_q8eg1"]
-[ext_resource type="Script" path="res://Actors/grunt_enemy/sprite_2d.gd" id="3_5xr60"]
+[ext_resource type="Script" path="res://Actors/grunt_enemy/spin.gd" id="3_5xr60"]
+[ext_resource type="Texture2D" uid="uid://3ggtiukcx7w3" path="res://Actors/grunt_enemy/evil_baseball.png" id="3_hrdpb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lc1tl"]
 size = Vector2(28, 28)
@@ -11,7 +11,46 @@ size = Vector2(28, 28)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svmup"]
 size = Vector2(32, 32)
 
+[sub_resource type="Animation" id="Animation_ntpn0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_j6f1c"]
+resource_name = "evil_baseball"
+length = 0.433337
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667, 0.3, 0.333333, 0.366667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_412an"]
+_data = {
+"RESET": SubResource("Animation_ntpn0"),
+"evil_baseball": SubResource("Animation_j6f1c")
+}
+
 [node name="GruntEnemy2" type="CharacterBody2D" groups=["Enemies", "Grunt"]]
+collision_mask = 2
 script = ExtResource("1_5wsdf")
 
 [node name="shadow" type="Sprite2D" parent="."]
@@ -21,11 +60,6 @@ rotation = -2.96976
 scale = Vector2(0.0620237, -0.0658599)
 texture = ExtResource("2_q8eg1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.303571, 0.303572)
-texture = ExtResource("2_2ph3t")
-script = ExtResource("3_5xr60")
-
 [node name="Grunt COllider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_lc1tl")
 
@@ -33,3 +67,15 @@ shape = SubResource("RectangleShape2D_lc1tl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_svmup")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.195652, 0.195653)
+texture = ExtResource("3_hrdpb")
+hframes = 14
+script = ExtResource("3_5xr60")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_412an")
+}
+autoplay = "evil_baseball"

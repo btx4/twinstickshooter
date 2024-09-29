@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dipmliwt2u7sd"
-path="res://.godot/imported/Enemy_baseball.png-78415074e50356a1e6738a12f631d5b6.ctex"
+uid="uid://bak5a1b5bxicp"
+path="res://.godot/imported/good_baseball.png-7cd752d85f065cc610b7526a410058ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Actors/grunt_enemy/Enemy_baseball.png"
-dest_files=["res://.godot/imported/Enemy_baseball.png-78415074e50356a1e6738a12f631d5b6.ctex"]
+source_file="res://Actors/grunt_projectile/good_baseball.png"
+dest_files=["res://.godot/imported/good_baseball.png-7cd752d85f065cc610b7526a410058ae.ctex"]
 
 [params]
 

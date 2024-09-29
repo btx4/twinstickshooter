@@ -33,6 +33,9 @@ func _on_body_entered(body: Node) -> void:
 			update_score(5)  # Increment the score by 1
 		body.queue_free()  # Remove the Grunt
 		queue_free()  # Remove the projectile
+	if body.is_in_group("shooter"):
+		body.hit()
+
 
 func _on_area_entered(area: Area2D) -> void:
 	print(area)
@@ -46,6 +49,11 @@ func _on_area_entered(area: Area2D) -> void:
 			print("noscorelabelfound")
 		area.queue_free()  # Remove the Grunt
 		queue_free()  # Remove the projectile
+	
+	if area.is_in_group("shooter"):
+		print("gotteem")
+		queue_free()
+		area.hit()
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta

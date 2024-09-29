@@ -22,6 +22,7 @@ func _on_body_entered(body: Node) -> void:
 	print(body)
 	if body.is_in_group("player"):
 		print("Playerhit")
+		get_parent()._reset()
 
 func _on_area_entered(area: Area2D) -> void:
 	print(area)

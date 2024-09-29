@@ -39,6 +39,7 @@ func _on_body_entered(body: Node) -> void:
 			var powerup = powerup_scene.instantiate()
 			powerup.position = body.position
 			get_parent().get_parent().add_child(powerup)
+			CHANCE_OF_POWERUP+=3
 		
 		if score_label:
 			update_score(5)  # Increment the score by 1
@@ -61,6 +62,7 @@ func _on_area_entered(area: Area2D) -> void:
 			var powerup = powerup_scene.instantiate()
 			powerup.position = area.position
 			get_parent().get_parent().add_child(powerup)
+			CHANCE_OF_POWERUP+=3
 		
 		if score_label:
 			update_score(5)  # Increment the score by 1

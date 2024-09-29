@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu68v2xvn5ki0"]
+[gd_scene load_steps=11 format=3 uid="uid://bu68v2xvn5ki0"]
 
 [ext_resource type="Script" path="res://Actors/powerup/powerup.gd" id="1_rp2fv"]
 [ext_resource type="Texture2D" uid="uid://d2ct1yb1yf8xe" path="res://Actors/Skeleton/Powerup.png" id="2_q10e8"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_034by"]
-size = Vector2(16, 16)
+[ext_resource type="Script" path="res://Actors/powerup/skeleton_sprite.gd" id="3_2c8to"]
+[ext_resource type="Texture2D" uid="uid://5kiqf81b5gpk" path="res://Actors/Shadow.png" id="4_d3ufj"]
 
 [sub_resource type="Animation" id="Animation_b1iex"]
 resource_name = "Idle"
@@ -42,18 +41,24 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_hb0oq"]
+resource_name = "baseball"
+loop_mode = 1
+step = 0.0833333
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3j1yn"]
 _data = {
 "Idle": SubResource("Animation_b1iex"),
 "IdleFront": SubResource("Animation_3hiai"),
-"RESET": SubResource("Animation_s7rbq")
+"RESET": SubResource("Animation_s7rbq"),
+"baseball": SubResource("Animation_hb0oq")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_034by"]
+size = Vector2(32, 46)
 
 [node name="Powerup" type="Area2D" groups=["powerup"]]
 script = ExtResource("1_rp2fv")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_034by")
 
 [node name="SkeletonSprite" type="Sprite2D" parent="."]
 position = Vector2(4, -4)
@@ -61,6 +66,14 @@ scale = Vector2(3.25, 3.06944)
 texture = ExtResource("2_q10e8")
 hframes = 4
 vframes = 4
+script = ExtResource("3_2c8to")
+
+[node name="shadow" type="Sprite2D" parent="SkeletonSprite"]
+modulate = Color(1, 1, 1, 0.313726)
+position = Vector2(-0.0374489, 9.06345)
+rotation = -3.14159
+scale = Vector2(0.0227166, -0.00989008)
+texture = ExtResource("4_d3ufj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../SkeletonSprite")
@@ -68,6 +81,10 @@ libraries = {
 "": SubResource("AnimationLibrary_3j1yn")
 }
 speed_scale = 0.25
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, -3)
+shape = SubResource("RectangleShape2D_034by")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

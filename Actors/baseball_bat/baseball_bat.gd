@@ -3,7 +3,7 @@ extends Area2D
 var velocity: Vector2 = Vector2(0, 0)
 var score_label: RichTextLabel = null
 var score: int
-@onready var body_entered_signal = self.connect("body_entered", Callable(self, "_on_body_entered"))
+#@onready var body_entered_signal = self.connect("body_entered", Callable(self, "_on_body_entered"))
 @export var projectile_scene: Resource
 
 var swinging = false
@@ -13,9 +13,9 @@ const CHANCE_OF_POWERUP = 12
 const ROTATION_CLOCKWISE = 30
 const ROTATION_COUNTERCLOCKWISE = -180
 const RESET_ROTATION = 0
-
 func swing(direction: Vector2) -> void:
 	if(can_swing == true):
+		$Whoosh.play()
 		var tween = create_tween()
 		# Create the tween for rotation
 		tween.tween_property(self, "rotation_degrees",  ROTATION_CLOCKWISE, 0.1).as_relative()
@@ -23,7 +23,6 @@ func swing(direction: Vector2) -> void:
 		tween.tween_property(self, "rotation_degrees", 0, 0.5).as_relative().set_delay(0.18)
 		
 		# Start the timer to reset swinging
-		print(swinging)
 		can_swing = false;
 		var timer = $Timer
 		var warmupTimer = $Warmup_timer
@@ -54,32 +53,34 @@ func _ready() -> void:
 # Called when the Area2D hits another body
 func _on_area_entered(area: Area2D) -> void:
 	#print(area)
-	if area.is_in_group("Grunt"):
+	if area.is_in_group("Enemies"):
 		#print("Hit!")
-		if score_label:
-			update_score(5)  # Increment the score by 1
-		else: 
-			print("noscorelabelfound")
-		print(swinging)
 		if swinging == true:
+			$Batcrack.play()
+			if score_label:
+				update_score(5)  # Increment the score by 1
+			if(area.is_in_group("shooter")):
+				area.kill()
+			else:
+				area.hit()
 			enemy_hit(area)
-			area.queue_free()  # Remove the Grunt
-			
 			
 func _on_body_entered(body: Node) -> void:
 	#print(area)
-	if body.is_in_group("Grunt"):
+	if body.is_in_group("Enemies"):
 		#print("Hit!")
-		if score_label:
-			update_score(5)  # Increment the score by 1
-		else:
-			print("noscorelabelfound")
-		print(swinging)
 		if swinging == true:
-			enemy_hit(body)
-			body.queue_free()  # Remove the Grunt
+			$Batcrack.play()
+			if score_label:
+				update_score(5)  # Increment the score by 1
 			
-				# Code to give the player a boomerang
+			if(body.is_in_group("shooter")):
+				body.kill()
+			else:
+				body.hit()
+				
+			enemy_hit(body)
+			
 
 func _physics_process(delta: float) -> void:
 	"""if(swinging == true):
@@ -110,7 +111,6 @@ func get_score_from_label() -> int:
 # This function is called when the Timer times out
 func _on_swing_timeout() -> void:
 	swinging = false
-	print("SETSWINGINGTOFALSE")
 	
 func on_reswing_timeout() -> void:
 	#print("Timer Done")
